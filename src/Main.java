@@ -18,12 +18,25 @@ public class Main {
 		
 		String command = "cd /root/openface && for N in {1..8}; do ./util/align-dlib.py <path-to-raw-data> "
 				+ "align outerEyesAndNose <path-to-aligned-data> --size 96 & done && ./batch-represent/main.lua "
-				+ "-outDir <feature-directory> -data <path-to-aligned-data> && ./demos/classifier.py train <feature-directory>";
+				+ "-outDir <feature-directory> -data <path-to-aligned-data> && ./demos/classifier.py train <feature-directory> "
+				+ "&& exit";
 		
 		String output = this.executeCommand(command);
 		
 		System.out.println(output);
 	}
+	
+	private void testImage(String path){
+		
+		this.runDocker();
+		
+		String command = "./demos/classifier.py infer /opt/data/features/classifier.pkl " + path + " && exit";
+		
+		String output = this.executeCommand(command);
+		
+		System.out.println(output);
+	}
+	
 	
 	private String executeCommand(String command) {
 		
