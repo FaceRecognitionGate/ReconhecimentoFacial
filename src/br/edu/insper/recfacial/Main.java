@@ -1,3 +1,5 @@
+package br.edu.insper.recfacial;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
