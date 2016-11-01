@@ -54,10 +54,7 @@ public class Docker {
 		// Treina a base de dados à partir das imagens já salvas no docker
 
 
-		String command = "cd /root/openface && for N in {1..8}; do ./util/align-dlib.py <path-to-raw-data> "
-				+ "align outerEyesAndNose <path-to-aligned-data> --size 96 & done && ./batch-represent/main.lua "
-				+ "-outDir <feature-directory> -data <path-to-aligned-data> && ./demos/classifier.py train <feature-directory> "
-				+ "&& exit";
+		String command = Constants.TRAIN_DATA;
 
 		String output = this.executeCommand(command);
 
