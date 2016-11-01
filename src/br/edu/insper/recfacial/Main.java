@@ -3,6 +3,8 @@ package br.edu.insper.recfacial;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
 public class Main {
 
 	private void runDocker(){
@@ -32,7 +34,7 @@ public class Main {
 
 		this.runDocker();
 
-		String command = "./demos/classifier.py infer /opt/data/features/classifier.pkl " + path + " && exit";
+		String command = Constants.TEST_DATA + " " + path + " && exit";
 
 		String output = this.executeCommand(command);
 

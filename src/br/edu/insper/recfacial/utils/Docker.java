@@ -55,15 +55,23 @@ public class Docker {
 		}
 	}
 
-	private void trainDatabase() throws DockerNotConnectedException {
+	public void trainDatabase() throws DockerNotConnectedException {
 		// Treina a base de dados à partir das imagens já salvas no docker
-
-
 		String command = Constants.TRAIN_DATA;
 
 		String output = this.executeCommand(command);
 
 		System.out.println(output);
 	}
+
+	public void testImage(String path) throws DockerNotConnectedException{
+		// Tests if a image at a given path corresponds to a known person
+		String command = Constants.TEST_DATA + " " + path + " && exit";
+
+		String output = executeCommand(command);
+
+		System.out.println(output);
+	}
+
 
 }
