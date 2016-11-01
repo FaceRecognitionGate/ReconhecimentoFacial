@@ -10,6 +10,11 @@ public class Docker {
 	public Docker() {
 		connected = false;
 	}
+	
+	public void exitDocker() throws DockerNotConnectedException {
+		// Closes connection to the docker CLI
+		executeCommand("exit");
+	}
 
 	private String executeCommand(String command) throws DockerNotConnectedException {
 		// Executa um dado comando na CLI do docker
