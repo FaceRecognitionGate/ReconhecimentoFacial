@@ -1,11 +1,19 @@
 package br.edu.insper.recfacial.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+import br.edu.insper.recfacial.utils.Docker;
+import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
 
 /**
  * Servlet implementation class ProcessImages
@@ -34,7 +42,29 @@ public class ProcessImages extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+
+		  StringBuffer jb = new StringBuffer();
+		  String line = null;
+		  try {
+		    BufferedReader reader = request.getReader();
+		    while ((line = reader.readLine()) != null)
+		      jb.append(line);
+		  } catch (Exception e) { /*report an error*/ }
+
+		  try {
+		    JSONObject jsonObject = JSONObject.fromObject(jb.toString());
+		  } catch (ParseException e) {
+		    // crash and burn
+		    throw new IOException("Error parsing JSON request string");
+		  }
+		Docker docker = new Docker();
+		try {
+			docker.startConnection();
+		} catch (DockerAlreadyConnectedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
