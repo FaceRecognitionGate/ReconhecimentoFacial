@@ -18,7 +18,7 @@ public final class Constants {
 			+ " -p " + PORT_B + " -v " + SHARED_FOLDER + " -it " + DOCKER_INFO;
 	public static final String CD_OPENFACE = "cd " + OPENFACE_DIR;
 	public static final String ALIGN_DATA = " align outerEyesAndNose";
-
+	
 	// Comandos já concatenados
 	public static final String ALIGN_COMMAND = "for N in {1..8}; "
 			+ "do ./util/align-dlib.py" + RAW_PICTURES_DIR + ALIGN_DATA
@@ -29,6 +29,7 @@ public final class Constants {
 			+ FEATURES_DIR;
 	public static final String TRAIN_DATA = ALIGN_COMMAND + " && "
 			+ FEATURES_COMMAND + " && " + TRAIN_COMMAND + " && exit";
+	public static final String TEST_DATA = "./demos/classifier.py infer /opt/data/features/classifier.pkl";
 	
 	private Constants(){}
 
