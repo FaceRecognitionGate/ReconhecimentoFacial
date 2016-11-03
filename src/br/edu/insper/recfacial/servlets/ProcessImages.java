@@ -67,6 +67,7 @@ public class ProcessImages extends HttpServlet {
 				e.printStackTrace();
 			} // get value
 		    Pessoa pessoa = new Pessoa(nome, fotos);
+		    Docker docker = new Docker();
 		}
 	}
 
