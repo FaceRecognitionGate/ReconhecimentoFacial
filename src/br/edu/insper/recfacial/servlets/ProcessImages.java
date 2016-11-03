@@ -19,7 +19,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import br.edu.insper.recfacial.utils.Docker;
 import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
-import br.edu.insper.recfacial.utils.Pessoa;
+import br.edu.insper.recfacial.utils.ImageConverter;
 
 /**
  * Servlet implementation class ProcessImages
@@ -66,9 +66,14 @@ public class ProcessImages extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // get value
-		    Pessoa pessoa = new Pessoa(nome, fotos);
 		    Docker docker = new Docker();
+		    docker.mkdir(nome);
+		    for (int i = 0; i < fotos.size(); i++) {
+		    	ImageConverter.convertImage(fotos.get(i), nome + "_" + String.valueOf(i));
+		    }
 		}
 	}
+	
+	
 
 }

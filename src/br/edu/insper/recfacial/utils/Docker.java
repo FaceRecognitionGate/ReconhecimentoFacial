@@ -77,7 +77,7 @@ public class Docker {
 		// Returns 0 if successful, 1 if not
 		if (connected) {
 			try {
-				String command = "mkdir " + Constants.RAW_PICTURES_DIR + "/" + dirName;
+				String command = "mkdir " + Constants.RAW_PICTURES_DIR_NODOCKER + "/" + dirName;
 				String output = executeCommand(command);
 				return 0;
 			} catch (DockerNotConnectedException e) {

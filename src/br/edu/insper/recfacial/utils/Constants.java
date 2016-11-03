@@ -5,6 +5,7 @@ public final class Constants {
 	// Diretórios
 	public static final String SHARED_DIR = " /opt";
 	public static final String RAW_PICTURES_DIR = SHARED_DIR + "/raw";
+	public static final String RAW_PICTURES_DIR_NODOCKER = "$HOME/data1/raw";
 	public static final String ALIGNED_PICTURES_DIR = SHARED_DIR + "/aligned";
 	public static final String FEATURES_DIR = SHARED_DIR + "/features";
 	public static final String ROOT = " /root";
