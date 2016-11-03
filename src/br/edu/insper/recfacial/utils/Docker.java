@@ -72,6 +72,21 @@ public class Docker {
 
 		System.out.println(output);
 	}
+	
+	public int mkdir(String dirName) {
+		// Returns 0 if successful, 1 if not
+		if (connected) {
+			try {
+				String command = "mkdir " + Constants.RAW_PICTURES_DIR + "/" + dirName;
+				String output = executeCommand(command);
+				return 0;
+			} catch (DockerNotConnectedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return 1;
+	}
 
 
 }
