@@ -2,18 +2,24 @@ package br.edu.insper.recfacial.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import br.edu.insper.recfacial.utils.Docker;
 import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
+import br.edu.insper.recfacial.utils.Pessoa;
 
 /**
  * Servlet implementation class ProcessImages
@@ -43,27 +49,24 @@ public class ProcessImages extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-
-		  StringBuffer jb = new StringBuffer();
-		  String line = null;
-		  try {
-		    BufferedReader reader = request.getReader();
-		    while ((line = reader.readLine()) != null)
-		      jb.append(line);
-		  } catch (Exception e) { /*report an error*/ }
-
-		  try {
-		    JSONObject jsonObject = JSONObject.fromObject(jb.toString());
-		  } catch (ParseException e) {
-		    // crash and burn
-		    throw new IOException("Error parsing JSON request string");
-		  }
-		Docker docker = new Docker();
+		JSONObject jObj = null;
 		try {
-			docker.startConnection();
-		} catch (DockerAlreadyConnectedException e) {
+			jObj = new JSONObject(request.getParameter("mydata"));
+		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
+		} // this parses the json
+		Iterator it = jObj.keys(); //gets all the keys
+		while(it.hasNext()) {
+		    String nome = (String) it.next(); // get key
+		    ArrayList<Blob> fotos = null;
+			try {
+				fotos = (ArrayList<Blob>) jObj.get(nome);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // get value
+		    Pessoa pessoa = new Pessoa(nome, fotos);
 		}
 	}
 
