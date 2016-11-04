@@ -50,12 +50,8 @@ public class ProcessImages extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		JSONObject jObj = null;
-		try {
-			jObj = new JSONObject(request.getParameter("mydata"));
-		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} // this parses the json
+		String json_string = new String(request.getParameter("mydata"));
+		jObj = new JSONObject(JSONObject.stringToValue(json_string));
 		Iterator it = jObj.keys(); //gets all the keys
 		while(it.hasNext()) {
 		    String nome = (String) it.next(); // get key
