@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -30,26 +31,29 @@ public class TestProcessImages {
 	private String nome;
 	private JSONObject json;
 	
-	public TestProcessImages(String path, String nome) throws FileNotFoundException, SerialException, SQLException, JSONException{
+	public TestProcessImages(String path, String nome) throws SerialException, SQLException, JSONException, IOException{
 		this.nome = nome;
+		
+		fotos = new ArrayList<Blob>();
 		
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
-
 		for (File file : listOfFiles) {
 		    if (file.isFile()) {
-	    	   FileInputStream fileinput = new FileInputStream(file); 
-	    	    byte[] bytearray = new byte[(int)file.length()];
+		    	FileInputStream fileinput = new FileInputStream(file); 
+	    	    byte[] bytearray = IOUtils.toByteArray(fileinput);
+	    	    fileinput.read(bytearray);
+	    	    fileinput.close();
 	    	    Blob blob = new javax.sql.rowset.serial.SerialBlob(bytearray);
+	    	    System.out.println(blob.toString());
 	    	    fotos.add(blob);
 		    }
 		}
-		
 		json = new JSONObject();
-		json.put(nome, fotos);
+		json.put(nome,fotos);
 	}
 	
-	private void postJson(JSONObject json) throws ClientProtocolException, IOException{
+	public void postJson(JSONObject json) throws ClientProtocolException, IOException{
 		
 		HttpClient httpclient = HttpClients.createDefault();
 		HttpPost httppost = new HttpPost("http://localhost:8080/ReconhecimentoFacial/ProcessImages");
@@ -60,6 +64,10 @@ public class TestProcessImages {
         httppost.setEntity(new UrlEncodedFormEntity(urlParameters));
 
         HttpResponse resp = httpclient.execute(httppost);
+	}
+
+	public JSONObject getJson() {
+		return json;
 	}
 	
 	

@@ -33,7 +33,7 @@ public class ImageConverter {
         catch (SQLException e) {
             e.printStackTrace();
         }
-        catch(IllegalArgumentException e) {
+        catch(IllegalArg 	umentException e) {
             e.printStackTrace();
         }
     }
