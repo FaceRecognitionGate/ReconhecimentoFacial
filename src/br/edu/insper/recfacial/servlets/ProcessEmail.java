@@ -66,12 +66,7 @@ public class ProcessEmail extends HttpServlet {
         HttpResponse resp = client.execute(request_http);
 		
         if( resp.getStatusLine().getStatusCode() == 200) {
-            InputStreamReader stream = new InputStreamReader(resp.getEntity().getContent());
-            BufferedReader br = new BufferedReader(stream);
-            String line;
-            while ( (line = br.readLine()) != null ) {
-                System.out.println(line);
-            }
+            InputStreamReader stream_reader = new InputStreamReader(resp.getEntity().getContent());
         }
 	}
 	
