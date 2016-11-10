@@ -9,6 +9,12 @@ public class Docker {
 
 	public Docker() {
 		connected = false;
+		try {
+			this.startConnection();
+		} catch (DockerAlreadyConnectedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void exitDocker() throws DockerNotConnectedException {

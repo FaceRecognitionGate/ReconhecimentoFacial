@@ -29,7 +29,11 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import br.edu.insper.recfacial.utils.Constants;
 import br.edu.insper.recfacial.utils.Docker;
 import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
+import br.edu.insper.recfacial.utils.DockerNotConnectedException;
 import br.edu.insper.recfacial.utils.HttpDownloadUtility;
+import br.edu.insper.recfacial.utils.UnZip;
+import br.edu.insper.recfacial.utils.Zip;
+import net.lingala.zip4j.exception.ZipException;
 
 
 /**
@@ -59,13 +63,25 @@ public class ProcessEmail extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String email_received = request.getParameter("email");
-		String link_received = request.getParameter("link");
+		String email = request.getParameter("email");
+		String link = request.getParameter("link");
         try {
-            HttpDownloadUtility.downloadFile(link_received, Constants.ZIP_DIRECTORY, email_received);
+            HttpDownloadUtility.downloadFile(link, Constants.ZIP_DIRECTORY, email);
+            UnZip.unzip(email);
+            Docker docker = new Docker();
+            try {
+				docker.trainDatabase();
+			} catch (DockerNotConnectedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } catch (IOException ex) {
+        	
             ex.printStackTrace();
-        }
+        } catch (ZipException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
         
 	}

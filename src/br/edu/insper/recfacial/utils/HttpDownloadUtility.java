@@ -5,7 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
  
 /**
  * A utility that downloads a file from a URL.
@@ -34,19 +38,6 @@ public class HttpDownloadUtility {
             String contentType = httpConn.getContentType();
             int contentLength = httpConn.getContentLength();
  
-            if (disposition != null) {
-                // extracts file name from header field
-                int index = disposition.indexOf("filename=");
-                if (index > 0) {
-                    fileName = disposition.substring(index + 10,
-                            disposition.length() - 1);
-                }
-            } else {
-                // extracts file name from URL
-                fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
-                        fileURL.length());
-            }
- 
             System.out.println("Content-Type = " + contentType);
             System.out.println("Content-Disposition = " + disposition);
             System.out.println("Content-Length = " + contentLength);
@@ -73,5 +64,20 @@ public class HttpDownloadUtility {
             System.out.println("No file to download. Server replied HTTP code: " + responseCode);
         }
         httpConn.disconnect();
+    }
+    
+    public static Path download(String sourceUrl,
+            String targetDirectory, String nameFile) throws MalformedURLException, IOException
+    {
+        URL url = new URL(sourceUrl);
+
+        String fileName = nameFile;
+
+        Path targetPath = new File(targetDirectory + "/" + fileName).toPath();
+
+        Files.copy(url.openStream(), targetPath,
+                StandardCopyOption.REPLACE_EXISTING);
+
+        return targetPath;
     }
 }
