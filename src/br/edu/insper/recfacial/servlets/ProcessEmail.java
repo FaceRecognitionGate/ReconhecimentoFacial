@@ -26,8 +26,10 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
+import br.edu.insper.recfacial.utils.Constants;
 import br.edu.insper.recfacial.utils.Docker;
 import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
+import br.edu.insper.recfacial.utils.HttpDownloadUtility;
 
 
 /**
@@ -57,17 +59,15 @@ public class ProcessEmail extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Object email = null;
-		String email_received = request.getParameter((String) email);
-		
-        HttpClient client = HttpClients.createDefault();
-        HttpGet request_http = new HttpGet("https://catracainsper.mybluemix.net/getImages?email=" + email_received);
-        
-        HttpResponse resp = client.execute(request_http);
-		
-        if( resp.getStatusLine().getStatusCode() == 200) {
-            InputStreamReader stream_reader = new InputStreamReader(resp.getEntity().getContent());
+		String email_received = request.getParameter("email");
+		String link_received = request.getParameter("link");
+        try {
+            HttpDownloadUtility.downloadFile(link_received, Constants.ZIP_DIRECTORY, email_received);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+		
+        
 	}
 	
 	
