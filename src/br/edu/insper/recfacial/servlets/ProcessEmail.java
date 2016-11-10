@@ -23,19 +23,18 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import br.edu.insper.recfacial.utils.Docker;
 import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
-import br.edu.insper.recfacial.utils.ImageConverter;
 
 /**
  * Servlet implementation class ProcessImages
  */
-@WebServlet("/ProcessImages")
-public class ProcessImages extends HttpServlet {
+@WebServlet("/ProcessEmail")
+public class ProcessEmail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. 
      */
-    public ProcessImages() {
+    public ProcessEmail() {
         // TODO Auto-generated constructor stub
     }
 
@@ -52,43 +51,6 @@ public class ProcessImages extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		JSONObject jObj = null;
-		String json_string = new String(request.getParameter("mydata"));
-		jObj = new JSONObject(JSONObject.stringToValue(json_string));
-		Iterator it = jObj.keys(); //gets all the keys
-		while(it.hasNext()) {
-		    String nome = (String) it.next(); // get key
-		    ArrayList<Blob> fotos = new ArrayList<Blob>();
-		    JSONArray jarray = new JSONArray();
-			try {
-				jarray = (JSONArray) jObj.get(nome);
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		    for (int i=0;i<jarray.length();i++){ 
-		        try {
-		        	byte[] bytes = jarray.get(i).toString().getBytes("utf-8");
-		    	    Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-					fotos.add(blob);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SerialException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		    } 
-		    Docker docker = new Docker();
-		    docker.mkdir(nome);
-		    for (int i = 0; i < fotos.size(); i++) {
-		    	ImageConverter.convertImage(fotos.get(i), nome + "_" + String.valueOf(i));
-		    }
-		}
 	}
 	
 	
