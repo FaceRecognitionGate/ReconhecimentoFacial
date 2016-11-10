@@ -1,23 +1,20 @@
 package br.edu.insper.recfacial.utils;
 
+import net.lingala.zip4j.core.ZipFile;
 
 public class Zip {
-//    String source = "some/compressed/file.zip";
-//    String destination = "some/destination/folder";
-//    String password = "password";
-//
-//    try {
-//         ZipFile zipFile = new ZipFile(source);
-//         if (zipFile.isEncrypted()) {
-//            zipFile.setPassword(password);
-//         }
-//         zipFile.extractAll(destination);
-//    } catch (ZipException e) {
-//        e.printStackTrace();
-//    }	
-	public void unZipStream(String zipFile) {
+
+	public void unZipFile(String zipFileName) {
 		// Unzips files from given zipinputstream
-		String fullPath = "/opt/data1/zip" + zipFile + ".zip";
+		String fullPath = Constants.ZIP_DIR + zipFileName + ".zip"; // TODO: use constants
+		String savePath = Constants.ALIGNED_PICTURES_DIR_NODOCKER + "/" + zipFileName;
+		try {
+			ZipFile zipFile = new ZipFile(fullPath);
+			zipFile.extractAll(savePath);
+		} catch (net.lingala.zip4j.exception.ZipException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

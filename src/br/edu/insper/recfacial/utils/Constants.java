@@ -10,6 +10,8 @@ public final class Constants {
 	public static final String FEATURES_DIR = SHARED_DIR + "/features";
 	public static final String ROOT = " /root";
 	public static final String OPENFACE_DIR = ROOT + "/openface";
+	public static final String ALIGNED_PICTURES_DIR_NODOCKER = "$HOME/data1/aligned";
+	public static final String ZIP_DIR = "$HOME/data1/zip";
 	
 	public static final String PORT_A = "9000:9000";
 	public static final String PORT_B = "8000:8000";
