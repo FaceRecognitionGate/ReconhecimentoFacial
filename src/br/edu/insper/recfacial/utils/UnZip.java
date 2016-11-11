@@ -9,6 +9,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
+import org.zeroturnaround.zip.ZipUtil;
+
 import net.lingala.zip4j.core.ZipFile;
 
 public class UnZip {
@@ -18,5 +20,10 @@ public class UnZip {
 		source = Constants.ZIP_DIRECTORY + "/" + source;
 	    ZipFile zipFile = new ZipFile(source);
 	    zipFile.extractAll(Constants.RAW_PICTURES_DIR_NODOCKER);
+	}
+	
+	public static void zip(String name) {
+		name = Constants.ALIGNED_PICTURES_DIR + "/" + name;
+		ZipUtil.pack(new File(name), new File("D:\\reports\\january.zip"));
 	}
 }
