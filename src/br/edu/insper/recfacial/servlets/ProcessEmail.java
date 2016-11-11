@@ -32,7 +32,6 @@ import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
 import br.edu.insper.recfacial.utils.DockerNotConnectedException;
 import br.edu.insper.recfacial.utils.HttpDownloadUtility;
 import br.edu.insper.recfacial.utils.UnZip;
-import br.edu.insper.recfacial.utils.Zip;
 import net.lingala.zip4j.exception.ZipException;
 
 

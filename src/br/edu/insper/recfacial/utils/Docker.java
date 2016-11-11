@@ -64,7 +64,7 @@ public class Docker {
 	public void trainDatabase() throws DockerNotConnectedException {
 		// Treina a base de dados à partir das imagens já salvas no docker
 		String command = Constants.TRAIN_DATA;
-
+		
 		String output = this.executeCommand(command);
 
 		System.out.println(output);

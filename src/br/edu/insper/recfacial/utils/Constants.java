@@ -25,15 +25,15 @@ public final class Constants {
 	
 	// Comandos já concatenados
 	public static final String ALIGN_COMMAND = "for N in {1..8}; "
-			+ "do ./util/align-dlib.py" + RAW_PICTURES_DIR + ALIGN_DATA
-			+ ALIGNED_PICTURES_DIR + "--size 96 & done";
-	public static final String FEATURES_COMMAND = "./batch-represent/main.lua "
+			+ "do " + OPENFACE_DIR + "/util/align-dlib.py" + RAW_PICTURES_DIR + ALIGN_DATA
+			+ ALIGNED_PICTURES_DIR + " --size 96 & done";
+	public static final String FEATURES_COMMAND = OPENFACE_DIR + " /batch-represent/main.lua "
 			+ "-outDir" + FEATURES_DIR + " -data" + ALIGNED_PICTURES_DIR;
 	public static final String TRAIN_COMMAND = "/demos/classifier.py train"
 			+ FEATURES_DIR;
 	public static final String TRAIN_DATA = ALIGN_COMMAND + " && "
 			+ FEATURES_COMMAND + " && " + TRAIN_COMMAND + " && exit";
-	public static final String TEST_DATA = "./demos/classifier.py infer /opt/data/features/classifier.pkl";
+	public static final String TEST_DATA = OPENFACE_DIR + "/demos/classifier.py infer /opt/data/features/classifier.pkl";
 	
 	private Constants(){}
 
