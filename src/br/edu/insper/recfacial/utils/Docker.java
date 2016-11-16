@@ -3,28 +3,15 @@ package br.edu.insper.recfacial.utils;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class Docker {
+public final class Docker {
 
-	private boolean connected = false;
 
-	public Docker() {
-		connected = false;
-		try {
-			this.startConnection();
-		} catch (DockerAlreadyConnectedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private Docker() {
 	}
-	
-	public void exitDocker() throws DockerNotConnectedException {
-		// Closes connection to the docker CLI
-		executeCommand("exit");
-	}
+
 
 	private String executeCommand(String command) throws DockerNotConnectedException {
 		// Executa um dado comando na CLI do docker
-		if (connected) {
 			StringBuffer output = new StringBuffer();
 			Process p;
 			try {
@@ -40,26 +27,8 @@ public class Docker {
 				e.printStackTrace();
 			}
 			return output.toString();
-		} else {
-			throw new DockerNotConnectedException();
-		}
 	}
 
-
-	public void startConnection() throws DockerAlreadyConnectedException {
-		// Starts connection to the docker CLI
-		if (!connected) {
-			connected = true;
-			try {
-				executeCommand(Constants.START_CONNECTION);
-			} catch (DockerNotConnectedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else {
-			throw new DockerAlreadyConnectedException();
-		}
-	}
 
 	public void trainDatabase() throws DockerNotConnectedException {
 		// Treina a base de dados à partir das imagens já salvas no docker
@@ -81,16 +50,9 @@ public class Docker {
 	
 	public int mkdir(String dirName) {
 		// Returns 0 if successful, 1 if not
-		if (connected) {
-			try {
-				String command = "mkdir " + Constants.RAW_PICTURES_DIR_NODOCKER + "/" + dirName;
-				String output = executeCommand(command);
-				return 0;
-			} catch (DockerNotConnectedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			String command = "mkdir " + Constants.RAW_PICTURES_DIR_NODOCKER + "/" + dirName;
+			String output = executeCommand(command);
+			return 0;
 		return 1;
 	}
 
