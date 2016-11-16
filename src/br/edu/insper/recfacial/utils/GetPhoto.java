@@ -19,10 +19,10 @@ public class GetPhoto  {
 	
 		CloseableHttpClient client = HttpClients.createDefault();
 		try (CloseableHttpResponse response = client.execute(
-		new HttpGet("http://10.91.18.15:8080/FRG/photo"))) {
-		   HttpEntity entity = response.getEntity();
-		   if (entity != null) {
-		       try (FileOutputStream outstream = new FileOutputStream(myFile)) {
+				new HttpGet("http://10.91.18.15:8080/FRG/photo"))) {
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+		        try (FileOutputStream outstream = new FileOutputStream(myFile)) {
 		           entity.writeTo(outstream);
 		       }
 		   }
