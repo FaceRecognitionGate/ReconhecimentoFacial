@@ -2,6 +2,7 @@ package br.edu.insper.recfacial.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialException;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,21 +26,26 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
+import br.edu.insper.recfacial.utils.Constants;
 import br.edu.insper.recfacial.utils.Docker;
 import br.edu.insper.recfacial.utils.DockerAlreadyConnectedException;
-import br.edu.insper.recfacial.utils.ImageConverter;
+import br.edu.insper.recfacial.utils.DockerNotConnectedException;
+import br.edu.insper.recfacial.utils.HttpDownloadUtility;
+import br.edu.insper.recfacial.utils.UnZip;
+import net.lingala.zip4j.exception.ZipException;
+
 
 /**
  * Servlet implementation class ProcessImages
  */
-@WebServlet("/ProcessImages")
-public class ProcessImages extends HttpServlet {
+@WebServlet("/ProcessEmail")
+public class ProcessEmail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. 
      */
-    public ProcessImages() {
+    public ProcessEmail() {
         // TODO Auto-generated constructor stub
     }
 
@@ -52,43 +62,27 @@ public class ProcessImages extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		JSONObject jObj = null;
-		String json_string = new String(request.getParameter("mydata"));
-		jObj = new JSONObject(JSONObject.stringToValue(json_string));
-		Iterator it = jObj.keys(); //gets all the keys
-		while(it.hasNext()) {
-		    String nome = (String) it.next(); // get key
-		    ArrayList<Blob> fotos = new ArrayList<Blob>();
-		    JSONArray jarray = new JSONArray();
-			try {
-				jarray = (JSONArray) jObj.get(nome);
-			} catch (JSONException e1) {
+		String email = request.getParameter("email");
+		String link = request.getParameter("link");
+        try {
+            HttpDownloadUtility.downloadFile(link, Constants.ZIP_DIRECTORY, email);
+            UnZip.unzip(email);
+            Docker docker = new Docker();
+            try {
+				docker.trainDatabase();
+			} catch (DockerNotConnectedException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e.printStackTrace();
 			}
-		    for (int i=0;i<jarray.length();i++){ 
-		        try {
-		        	byte[] bytes = jarray.get(i).toString().getBytes("utf-8");
-		    	    Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-					fotos.add(blob);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SerialException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		    } 
-		    Docker docker = new Docker();
-		    docker.mkdir(nome);
-		    for (int i = 0; i < fotos.size(); i++) {
-		    	ImageConverter.convertImage(fotos.get(i), nome + "_" + String.valueOf(i));
-		    }
+        } catch (IOException ex) {
+        	
+            ex.printStackTrace();
+        } catch (ZipException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		
+        
 	}
 	
 	
