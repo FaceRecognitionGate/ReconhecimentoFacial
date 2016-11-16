@@ -15,8 +15,8 @@ public class GetPhoto  {
 
 	public static void main(String[] args) throws ClientProtocolException, IOException{
 
-		File myFile = new File("comparação.jpg");
-		System.out.println("Foi");
+		File myFile = new File("compare.jpeg");
+	
 		CloseableHttpClient client = HttpClients.createDefault();
 		try (CloseableHttpResponse response = client.execute(
 		new HttpGet("http://10.91.18.15:8080/FRG/photo"))) {
