@@ -17,7 +17,7 @@ public class GetPhoto  {
 
 	public static void main(String[] args) throws ClientProtocolException, IOException, InterruptedException{
 		while (true){
-			String path = "compare.jpeg";
+			String path = "/opt/data/examples/compare.jpeg";
 			Integer range = 75;
 			File myFile = new File(path);
 			
