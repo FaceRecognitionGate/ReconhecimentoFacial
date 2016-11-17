@@ -15,7 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 
 public class GetPhoto  {
 
-	public static void main(String[] args) throws ClientProtocolException, IOException{
+	public static void main(String[] args) throws ClientProtocolException, IOException, InterruptedException{
 		while (true){
 			String path = "compare.jpeg";
 			Integer range = 75;
@@ -34,7 +34,9 @@ public class GetPhoto  {
 			if (Docker.testImage(path) > range){
 				HttpClient client2 = HttpClients.createDefault();
 				HttpResponse response = client2.execute(new HttpGet("http://10.91.18.15:8080/Servo_Catraca/open"));
+				 Thread.sleep(15000);
 			}
+			Thread.sleep(1000);
 		}
 	}
 }
