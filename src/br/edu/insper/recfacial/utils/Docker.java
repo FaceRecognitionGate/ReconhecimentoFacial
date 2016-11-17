@@ -39,13 +39,13 @@ public final class Docker {
 
 	public static void trainDatabase() throws ClientProtocolException, IOException{
 		HttpClient client = HttpClients.createDefault();
-		HttpResponse response = client.execute(new HttpGet("of:5000/new"));
+		HttpResponse response = client.execute(new HttpGet("http://of:8888/new"));
 	}
 
 	public static int testImage() throws ClientProtocolException, IOException, InterruptedException{
 		// Tests if a image at a given path corresponds to a known person
 		HttpClient client = HttpClients.createDefault();
-		HttpResponse response = client.execute(new HttpGet("of:5000/check"));
+		HttpResponse response = client.execute(new HttpGet("http://of:5000/check"));
 		Thread.sleep(500);
 		return 100;
 	}
