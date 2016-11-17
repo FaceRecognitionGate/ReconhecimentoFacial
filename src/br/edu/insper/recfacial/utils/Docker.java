@@ -1,7 +1,14 @@
 package br.edu.insper.recfacial.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
 
 public final class Docker {
 
@@ -30,24 +37,17 @@ public final class Docker {
 	}
 
 
-	public static void trainDatabase(){
-		// Treina a base de dados à partir das imagens já salvas no docker
-		String command = Constants.TRAIN_DATA;
-		
-		String output = Docker.executeCommand(command);
-
-		System.out.println(output);
+	public static void trainDatabase() throws ClientProtocolException, IOException{
+		HttpClient client = HttpClients.createDefault();
+		HttpResponse response = client.execute(new HttpGet("of:5000/new"));
 	}
 
-	public static int testImage(String path){
+	public static int testImage() throws ClientProtocolException, IOException, InterruptedException{
 		// Tests if a image at a given path corresponds to a known person
-		String command = Constants.TEST_DATA + " " + path + " && exit";
-
-		String output = executeCommand(command);
-
-		System.out.println(output);
-		
-		return 1;
+		HttpClient client = HttpClients.createDefault();
+		HttpResponse response = client.execute(new HttpGet("of:5000/check"));
+		Thread.sleep(500);
+		return 100;
 	}
 	
 	public static int mkdir(String dirName){

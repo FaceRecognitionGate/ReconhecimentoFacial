@@ -31,7 +31,7 @@ public class GetPhoto  {
 			       }
 			   }
 			}
-			if (Docker.testImage(path) > range){
+			if (Docker.testImage() > range){
 				HttpClient client2 = HttpClients.createDefault();
 				HttpResponse response = client2.execute(new HttpGet("http://10.91.18.15:8080/Servo_Catraca/open"));
 				 Thread.sleep(15000);
