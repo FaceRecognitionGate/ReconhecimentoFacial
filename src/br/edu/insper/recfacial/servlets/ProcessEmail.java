@@ -67,13 +67,7 @@ public class ProcessEmail extends HttpServlet {
         try {
             HttpDownloadUtility.downloadFile(link, Constants.ZIP_DIRECTORY, email);
             UnZip.unzip(email);
-            Docker docker = new Docker();
-            try {
-				docker.trainDatabase();
-			} catch (DockerNotConnectedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Docker.trainDatabase();
         } catch (IOException ex) {
         	
             ex.printStackTrace();
