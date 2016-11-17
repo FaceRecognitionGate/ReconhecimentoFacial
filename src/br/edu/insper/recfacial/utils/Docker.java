@@ -1,9 +1,11 @@
 package br.edu.insper.recfacial.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -45,9 +47,14 @@ public final class Docker {
 	public static int testImage() throws ClientProtocolException, IOException, InterruptedException{
 		// Tests if a image at a given path corresponds to a known person
 		HttpClient client = HttpClients.createDefault();
-		HttpResponse response = client.execute(new HttpGet("of:5000/check"));
+		HttpResponse response2 = client.execute(new HttpGet("of:5000/check"));
 		Thread.sleep(500);
-		return 100;
+		
+		File file = new File("/opt/data/examples/compare.jpeg");
+		
+		String line = (String) FileUtils.readLines(file).get(1);
+		
+		return Math.round(Float.valueOf(line) * 100);
 	}
 	
 	public static int mkdir(String dirName){
