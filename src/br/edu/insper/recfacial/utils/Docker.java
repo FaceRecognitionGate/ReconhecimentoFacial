@@ -39,13 +39,15 @@ public final class Docker {
 		System.out.println(output);
 	}
 
-	public static void testImage(String path){
+	public static int testImage(String path){
 		// Tests if a image at a given path corresponds to a known person
 		String command = Constants.TEST_DATA + " " + path + " && exit";
 
 		String output = executeCommand(command);
 
 		System.out.println(output);
+		
+		return 1;
 	}
 	
 	public static int mkdir(String dirName){
