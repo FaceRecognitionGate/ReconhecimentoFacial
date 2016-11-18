@@ -15,13 +15,13 @@ public class WebCam implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		executor = Executors.newSingleThreadExecutor();
-		executor.submit(new Task);
+		executor.shutdown();
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		executor.shutdown();
+		executor = Executors.newSingleThreadExecutor();
+		executor.submit(new Task());
 	}
 	
 	
